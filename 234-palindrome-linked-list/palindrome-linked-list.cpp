@@ -18,14 +18,15 @@ public:
             st.push(temp->val);
             temp=temp->next;
         }
-        while(head!=nullptr)
+        temp=head;
+        while(temp)
         {
-            if(st.top()!=head->val)
+            if(st.top()!=temp->val)
             {
                 return false;
             }
             st.pop();
-            head=head->next;
+         temp=temp->next;
         }
         return true;
     }
