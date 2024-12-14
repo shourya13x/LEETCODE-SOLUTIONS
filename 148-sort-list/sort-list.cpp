@@ -10,27 +10,54 @@
  */
 class Solution {
 public:
+    ListNode* findmiddle(ListNode* head)
+    {
+          ListNode* slow=head;
+          ListNode* fast=head->next;
+
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+
+        }
+     return slow;
+
+
+    }
+     ListNode* mergetwolist(ListNode* list1,ListNode* list2)
+     {
+            
+               ListNode* dummynode=new ListNode(-1);
+            ListNode* temp =dummynode;
+            while(list1!=NULL && list2!=NULL){
+              if(list1->val <  list2->val)
+              {
+                 temp->next=list1;
+                 temp=list1;
+                 list1=list1->next;
+              }
+              else
+              {
+                temp->next=list2;
+                 temp=list2;
+                 list2=list2->next;
+              }
+            }
+        if(list1){ temp->next=list1;} 
+        else  temp->next=list2;
+ return dummynode->next;
+
+
+     }
     ListNode* sortList(ListNode* head) {
-        if (!head || !head->next) return head; // If the list is empty or has one element, it's already sorted.
-
-        // Use a vector to extract all node values
-        vector<int> values; // No need for `std::` here
-        ListNode* temp = head;
-        while (temp != nullptr) {
-            values.push_back(temp->val);
-            temp = temp->next;
-        }
-
-        // Sort the vector
-        sort(values.begin(), values.end()); // No need for `std::` here
-
-        // Reassign the sorted values back to the list
-        temp = head;
-        for (int val : values) {
-            temp->val = val;
-            temp = temp->next;
-        }
-
-        return head;
+        if(head==NULL || head->next==NULL) return head;
+               ListNode*   middle=findmiddle(head);
+             ListNode* lefthead=head;
+             ListNode* righthead=middle->next;
+             middle->next=NULL;
+           lefthead=  sortList(lefthead);
+             righthead= sortList(righthead);
+          return  mergetwolist(lefthead,righthead);
     }
 };
