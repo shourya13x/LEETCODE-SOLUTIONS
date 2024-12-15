@@ -30,22 +30,22 @@ public:
         while(temp)
         {
              n1++;
-            temp=temp->next;
+            temp=temp->next;//count of headA
         }
         temp =headB;
         while(temp)
         {
-             n2++;
+             n2++;       //count of headA
             temp=temp->next;
         }
 
        if(n1<n2)
        {
-        return Collisonpoint(headA,headB,n2-n1);
+        return Collisonpoint(headA,headB,n2-n1);   //calling the function
        }
        else
        {
-        return Collisonpoint(headB,headA,n1-n2);
+        return Collisonpoint(headB,headA,n1-n2);   //calling the function
        }
 
 
