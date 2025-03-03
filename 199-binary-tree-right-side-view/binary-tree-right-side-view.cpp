@@ -11,21 +11,32 @@
  */
 class Solution {
 public:
-    vector<int> res;
-    unordered_map<int,int> mp;
-    void check(TreeNode* root,int n){
-        if(!root){
-            return;
-        }
-        if(!(mp.find(n) != mp.end())){
-            res.push_back(root->val);
-            mp[n]++;
-        }
-        check(root->right,n+1);
-        check(root->left,n+1);
-    }
     vector<int> rightSideView(TreeNode* root) {
-      check(root,0);
-      return res;  
+        vector<int> ans;
+        queue<TreeNode*> q;
+        if(root==NULL) return ans;
+        q.push(root);
+        while(!q.empty())
+        {
+            int n=q.size();
+            TreeNode * node=NULL;
+            for(int i=0;i<n;i++)
+            {
+                node=q.front();
+                q.pop();
+                if(node->left!=NULL)
+                {
+                    q.push(node->left);
+                }
+                if(node->right!=NULL)
+                {
+                    q.push(node->right);
+                }
+            
+            }
+            ans.push_back(node->val);
+            
+        }
+        return ans;
     }
 };
