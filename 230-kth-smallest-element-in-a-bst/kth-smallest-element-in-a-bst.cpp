@@ -11,20 +11,23 @@
  */
 class Solution {
 public:
-    pair<int,int> kthSmall(TreeNode* root,int k){
-        if(root == NULL)    return make_pair(-1,0);
-        pair<int,int> pr = kthSmall(root->left,k);
-        if(pr.first!=-1)    return pr;
-        else k -= pr.second;
-        if(k==1)    {
-            pr.first = root->val;
-            return pr;
+     int ans;
+     int cnt;
+    void helper(TreeNode* root,int k)
+    {
+        if(!root) return;
+        helper(root->left,k);
+        cnt++;
+        if(cnt==k)
+        {
+            ans=root->val;
         }
-        pair<int,int> p2 = kthSmall(root->right,k-1);
-        p2.second += 1 + pr.second;
-        return p2;
+        helper(root->right,k);
+        
+
     }
     int kthSmallest(TreeNode* root, int k) {
-        return kthSmall(root,k).first;
+        helper (root,k);
+        return ans;
     }
 };
