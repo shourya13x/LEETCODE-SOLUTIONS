@@ -18,11 +18,11 @@ public:
     int dfsheight(TreeNode* root)
     {
         if(root==NULL) return 0;
-        int leftheight = dfsheight(root->left);
-            if(leftheight==-1) return -1;
-        int rightheight = dfsheight(root->right);
-            if(rightheight==-1) return -1;
-        if(abs(leftheight-rightheight)>1) return -1;
-        return 1+max(leftheight,rightheight);
+        int lh = dfsheight(root->left);
+            if(lh==-1) return -1;
+        int rh = dfsheight(root->right);
+            if(rh==-1) return -1;
+        if(abs(lh-rh)>1) return -1;
+        return 1+max(lh,rh);
     }
 };
