@@ -12,14 +12,19 @@
  */
 class Solution {
 public:
-    bool isSymmetricHelp(TreeNode* t1, TreeNode* t2) {
-        if (t1==NULL || t2==NULL)
-            return t1==t2;
-        if (t1->val != t2->val)
+    bool check(TreeNode* left, TreeNode* right) {
+        if (left == NULL && right == NULL)
+            return true;
+        if (left == NULL || right == NULL)
             return false;
-        return isSymmetricHelp(t1->left,t2->right)&&isSymmetricHelp(t1->right,t2->left);
+        if ((left->val == right->val) && check(left->right, right->left) &&
+            check(left->left, right->right)) {
+            return true;
+        }
+        return false;
     }
-    bool isSymmetric(TreeNode* root) {
-        return root == NULL || isSymmetricHelp(root->left, root->right);
-    }
+    bool isSymmetric(TreeNode* root) { 
+        if(!root) return true;
+       return check(root->left, root->right); 
+        }
 };
