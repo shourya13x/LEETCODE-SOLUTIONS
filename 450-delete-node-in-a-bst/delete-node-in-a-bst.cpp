@@ -21,19 +21,26 @@ public:
     }
     TreeNode* helper(TreeNode* root) {
         if (root->left == NULL) {
-            return root->right;
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
         }
         if (root->right == NULL) {
-            return root->left;
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
         }
         TreeNode* rightchild = root->right;
         TreeNode* rightmost = mostright(root->left);
         rightmost->right = rightchild;
-        return root->left;
+
+        TreeNode* temp = root->left;
+        delete root;
+        return temp;
     }
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if (root == NULL)   return NULL;
-          
+        if (root == NULL)
+            return NULL;
 
         TreeNode* curr = root;
         if (root->val == key) {
