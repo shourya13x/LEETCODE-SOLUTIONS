@@ -1,39 +1,38 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
- * };
- */
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
-        stack<TreeNode*> st;
+        TreeNode* curr = root;
         int cnt = 0;
-        if (!root)
-            return 0;
-        while (true) {
-            if (root != NULL) {
-                st.push(root);
-                root = root->left;
-            } else {
-                if (st.empty() == true) {
-                    break;
-                }
-                root = st.top();
-                st.pop();
-                cnt++;
-                if (cnt == k)
-                    return root->val;
+        int result = -1;
 
-                root = root->right;
+        while (curr != NULL) {
+            if (curr->left == NULL) {
+                // Visit current node
+                cnt++;
+                if (cnt == k) result = curr->val;
+                curr = curr->right;
+            } else {
+                TreeNode* prev = curr->left;
+                while (prev->right != NULL && prev->right != curr) {
+                    prev = prev->right;
+                }
+
+                if (prev->right == NULL) {
+                    // Make thread
+                    prev->right = curr;
+                    curr = curr->left;
+                } else {
+                    // Remove thread and visit current
+                    prev->right = NULL;
+
+                    cnt++;
+                    if (cnt == k) result = curr->val;
+
+                    curr = curr->right;
+                }
             }
         }
-        return -1;
+
+        return result;
     }
 };
