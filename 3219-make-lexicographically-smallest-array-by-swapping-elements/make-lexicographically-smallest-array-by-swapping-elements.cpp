@@ -2,35 +2,36 @@ class Solution {
 public:
     vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
         int n = nums.size();
-        vector<int> ans(n,0);
-        priority_queue<int,vector<int>,greater<int>> pq;
-        vector<vector<int>> arr(n);
-        for(int i=0;i<n;i++){
-            arr[i] = {nums[i],i};
-        }
-        sort(arr.begin(),arr.end());
-        pq.push(arr[0][1]);
-        int i=0,j=1;
-        while(i<n && j<n){
-            if(arr[j][0]-arr[j-1][0] > limit){
-                // Up to here, we made one group so arrange these in ans array
-                while(!pq.empty()){
-                    ans[pq.top()] = arr[i][0];
-                    pq.pop();
-                    i++;
-                }
+
+        vector<int> sorted = nums;
+        sort(sorted.begin(), sorted.end());
+
+        unordered_map<int, vector<int>> group;
+        unordered_map<int, int> groupId;
+        unordered_map<int, int> pos;
+
+        int id = 1;
+        group[id].push_back(sorted[0]);
+        groupId[sorted[0]] = id;
+
+        for(int i = 1; i < n; i++){
+            if(sorted[i] - sorted[i - 1] > limit){
+                id++;
             }
-            pq.push(arr[j][1]);
-            j++;
+
+            group[id].push_back(sorted[i]);
+            groupId[sorted[i]] = id;
         }
 
-        while(!pq.empty()){
-            ans[pq.top()] = arr[i][0];
-            pq.pop();
-            i++;
+        // Rebuild nums using the smallest
+        // available value from its group
+        for(int i = 0; i < n; i++){
+            int grp = groupId[nums[i]];
+
+            nums[i] = group[grp][pos[grp]];
+            pos[grp]++;
         }
 
-        return ans;
-
+        return nums;
     }
 };
